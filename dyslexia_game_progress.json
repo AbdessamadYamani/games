@@ -1,0 +1,613 @@
+{
+    "learning_path": {
+        "chapters": [
+            {
+                "number": 1,
+                "title": "Chapter 1: Project Setup and Vowel Island Mechanics",
+                "tasks": [
+                    {
+                        "number": 1,
+                        "description": "Create New Unity 2D Project and Initial Folder Structure, laying the foundational groundwork for your grand adventure to restore the Magic of Words! [Est: 10 mins]",
+                        "explanation": "Start by setting up a new Unity project, configured for 2D, and organize the project assets into logical folders for sprites, scripts, scenes, and prefabs. This crucial foundational step not only promotes good project hygiene but also begins to build the very structure of Word Island itself, preparing you to unlock its mysteries and embark on your quest. Think of it as discovering the initial fragments of a map, essential for the journey ahead. (Ties to Epic Meaning & Calling, Unpredictability & Curiosity)",
+                        "steps": [
+                            "Open Unity Hub and click 'New Project'.",
+                            "Select '2D Core' template to ensure optimal settings for 2D development.",
+                            "Name the project 'WordIslandDyslexiaGame' and choose a suitable save location.",
+                            "Click 'Create Project'.",
+                            "In the Project window (typically at the bottom), right-click on the 'Assets' folder and create the following new folders: 'Scenes', 'Scripts', 'Sprites', 'Prefabs', 'Audio', 'UI'. These folders will help you manage different types of game assets efficiently, building the core of your game world."
+                        ],
+                        "expected_object": {
+                            "type": "Project Folders",
+                            "name": "Initial Project Structure",
+                            "properties": [
+                                "Assets/Scenes",
+                                "Assets/Scripts",
+                                "Assets/Sprites",
+                                "Assets/Prefabs",
+                                "Assets/Audio",
+                                "Assets/UI"
+                            ]
+                        },
+                        "recommended_sprites": []
+                    },
+                    {
+                        "number": 2,
+                        "description": "Design Main Menu Scene and Basic UI [Est: 30 mins]",
+                        "explanation": "Create the game's entry point with a title, play button, and background that begins to hint at the magical world of Word Island and the adventure awaiting the player, fostering **Epic Meaning & Calling**. Focus on clear, dyslexia-friendly fonts (e.g., Arial, OpenDyslexic, or similar sans-serif fonts with good letter spacing) for optimal readability.",
+                        "steps": [
+                            "Navigate to the 'Assets/Scenes' folder, right-click -> Create -> Scene, and name it 'MainMenu'.",
+                            "Double-click to open the 'MainMenu' scene.",
+                            "Right-click in the Hierarchy window -> UI -> Canvas. Rename this new GameObject 'MainMenuCanvas'.",
+                            "In the Inspector for 'MainMenuCanvas', set the 'Render Mode' to 'Screen Space - Camera' and drag your 'Main Camera' from the Hierarchy into the 'Render Camera' slot. This ensures UI elements scale correctly.",
+                            "Set the 'Canvas Scaler' component's 'UI Scale Mode' to 'Scale With Screen Size' and set the 'Reference Resolution' to 1920x1080. This makes your UI adapt to different screen sizes.",
+                            "Add a UI Image component to MainMenuCanvas (Right-click 'MainMenuCanvas' -> UI -> Image). Rename it 'Background'. In the Inspector, click the 'Rect Transform' square icon, hold 'Alt' and 'Shift', and click the bottom-right stretch preset to make it fill the canvas. This is where you'll place your main menu background sprite, ideally one that subtly hints at the mysterious or beautiful world of Word Island, piquing **Unpredictability & Curiosity**.",
+                            "Add a UI Text (TextMeshPro) component to MainMenuCanvas (Right-click 'MainMenuCanvas' -> UI -> Text - TextMeshPro). Rename it 'TitleText'. Position it at the top and enter 'Word Island'. Ensure you've imported the TMP Essentials if prompted. Select a clear, large, sans-serif font for dyslexia-friendliness.",
+                            "Add a UI Button component to MainMenuCanvas (Right-click 'MainMenuCanvas' -> UI -> Button - TextMeshPro). Rename it 'PlayButton'.",
+                            "Change the 'Text (TMP)' child component of 'PlayButton' to 'Start Game'. Ensure its font is also clear and legible.",
+                            "Create a new C# script in 'Assets/Scripts' named 'MainMenuManager'.",
+                            "Drag and drop the 'MainMenuManager' script onto the 'MainMenuCanvas' GameObject in the Hierarchy.",
+                            "Open the 'MainMenuManager' script and add a public method, for example, `public void StartGame() { /* Load next scene */ }`. This method will be called when the button is clicked.",
+                            "In the Inspector for 'PlayButton', find the 'On Click ()' event list. Click the '+' button. Drag 'MainMenuCanvas' from the Hierarchy to the 'Runtime Only' object slot. From the dropdown, select 'MainMenuManager' -> 'StartGame'."
+                        ],
+                        "expected_object": {
+                            "type": "Scene",
+                            "name": "MainMenu",
+                            "components": [
+                                "Canvas (MainMenuCanvas)",
+                                "Image (Background)",
+                                "Text (TMP) (TitleText)",
+                                "Button (PlayButton)",
+                                "MainMenuManager (Script)"
+                            ]
+                        },
+                        "recommended_sprites": [
+                            "MainMenu_Background.png",
+                            "Button_Play.png"
+                        ]
+                    },
+                    {
+                        "number": 3,
+                        "description": "Set Up Vowel Island Scene (Island 1: Vowel Voyage) [Est: 45 mins]",
+                        "explanation": "Create the first gameplay scene, 'Vowel Island'. This vibrant island serves as your initial step into the world of Word Island, where you'll begin your quest to restore its words and discover its lore. The scene will feature a tropical background, hinting at hidden details for explorers, a player character (your Word Guardian) that moves horizontally, and initial setup for objects that will represent falling vowels. The game will have a side-scrolling perspective.",
+                        "steps": [
+                            "Go to 'Assets/Scenes', right-click -> Create -> Scene, and name it 'VowelIsland'.",
+                            "Double-click to open 'VowelIsland' scene.",
+                            "Add a SpriteRenderer GameObject for the background. Name it 'Background'. Drag a tropical island background sprite into its 'Sprite' slot. (Consider 'VowelIsland_Background.png'). Adjust its 'Scale' and 'Order in Layer' to fit the scene and be behind other elements.",
+                            "Select the 'Main Camera' in the Hierarchy. Set its 'Projection' to 'Orthographic' and adjust its 'Size' property to frame your background appropriately. Position its Z-axis to be negative (e.g., -10) to render behind 2D sprites.",
+                            "Create an Empty GameObject in the Hierarchy and name it 'WordGuardian'. This will be your customizable player character. Add a SpriteRenderer component to 'WordGuardian' and assign a player character sprite (Consider 'Player_Character.png').",
+                            "Add a Rigidbody2D component to the 'WordGuardian' GameObject. Set its 'Body Type' to 'Dynamic' initially, and 'Gravity Scale' to 0 if you want to control vertical movement directly, or keep it >0 if your player can jump/fall.",
+                            "Create a new C# script named 'PlayerController' in 'Assets/Scripts'. Attach this script to the 'WordGuardian' GameObject.",
+                            "Open 'PlayerController' and implement basic horizontal movement using input (e.g., `Input.GetAxis(\"Horizontal\")` mapped to A/D keys or arrow keys) within the `FixedUpdate` method for physics-based movement.",
+                            "Add a CircleCollider2D component to the WordGuardian. Adjust its 'Radius' to fit the player sprite. Set 'Is Trigger' to true, as this collider will detect collection of vowels without physical interaction.",
+                            "Add an empty GameObject named 'VowelSpawnPoint' as a child of the Canvas, positioned off-screen at the top of the playable area. This will be the origin for falling vowels."
+                        ],
+                        "expected_object": {
+                            "type": "Scene",
+                            "name": "VowelIsland",
+                            "components": [
+                                "SpriteRenderer (Background)",
+                                "GameObject (WordGuardian)",
+                                "PlayerController (Script)",
+                                "Rigidbody2D (WordGuardian)",
+                                "CircleCollider2D (WordGuardian)"
+                            ],
+                            "properties": [
+                                "Player movement functionality"
+                            ]
+                        },
+                        "recommended_sprites": [
+                            "VowelIsland_Background.png",
+                            "Player_Character.png"
+                        ]
+                    },
+                    {
+                        "number": 4,
+                        "description": "Implement Falling Vowels and Spawning Logic for the 'Vowel Catch' mini-game [Est: 60 mins]",
+                        "explanation": "Create reusable prefabs for individual vowels (A, E, I, O, U) and develop a system to randomly spawn them from the top of the screen. These falling vowels are the primary interactive elements for the upcoming 'Vowel Catch' mini-game, providing the challenge (Unpredictability & Curiosity) and the objects for player collection (Development & Accomplishment).",
+                        "steps": [
+                            "Create an Empty GameObject in the 'VowelIsland' scene, name it 'VowelPool'. This will act as a parent for all spawned vowels, keeping the Hierarchy clean.",
+                            "For each vowel (A, E, I, O, U), create a new Sprite in 'Assets/Sprites' (e.g., 'Vowel_A.png', 'Vowel_E.png', etc.). Ensure these are clear and distinct, possibly with unique colors for each vowel for better visual recognition for children with dyslexia.",
+                            "Create an Empty GameObject in the scene (not yet a Prefab), name it 'Vowel_A'. Add a SpriteRenderer component and assign your 'Vowel_A.png' sprite to it. Adjust its 'Order in Layer' to be in front of the background.",
+                            "Add a Rigidbody2D component to 'Vowel_A'. Set its 'Body Type' to 'Dynamic' and 'Gravity Scale' to a value greater than 0 (e.g., 1) so it falls naturally.",
+                            "Add a CircleCollider2D component to 'Vowel_A'. Adjust its 'Radius' to fit the vowel sprite. Set 'Is Trigger' to true.",
+                            "Create a new C# script 'Vowel' in 'Assets/Scripts'. Attach it to the 'Vowel_A' GameObject. In this script, add a public `char` variable (e.g., `public char letter;`) to store the vowel's character (e.g., 'A'). Set this value in the Inspector for 'Vowel_A'.",
+                            "Drag the configured 'Vowel_A' GameObject from the Hierarchy into 'Assets/Prefabs' to create a reusable Prefab. Delete the instance from the scene after creating the Prefab.",
+                            "Repeat the above steps for 'Vowel_E', 'Vowel_I', 'Vowel_O', and 'Vowel_U', creating a Prefab for each vowel.",
+                            "Create a new C# script 'VowelSpawner' in 'Assets/Scripts'. Attach this script to the 'VowelSpawnPoint' GameObject you created earlier.",
+                            "In 'VowelSpawner', declare a public array of 'Vowel' Prefabs. Implement a coroutine (e.g., `IEnumerator SpawnVowels()`) to periodically (e.g., every few seconds) instantiate a random vowel prefab from your array. Instantiate it at the 'VowelSpawnPoint' position and parent it to the 'VowelPool' GameObject.",
+                            "Add a simple mechanism in the 'Vowel' script or 'VowelSpawner' to destroy vowels that fall off-screen (e.g., if their Y position is below a certain threshold). This ensures game performance and reinforces the challenge of collecting them before they are 'lost' (Loss & Avoidance)."
+                        ],
+                        "expected_object": {
+                            "type": "Prefabs and Script",
+                            "name": "Vowel Prefabs and Spawner",
+                            "components": [
+                                "Vowel Prefabs (A, E, I, O, U)",
+                                "Vowel (Script)",
+                                "VowelSpawner (Script)"
+                            ],
+                            "properties": [
+                                "Random vowel spawning",
+                                "Vowel falling behavior"
+                            ]
+                        },
+                        "recommended_sprites": [
+                            "Vowel_A.png",
+                            "Vowel_E.png",
+                            "Vowel_I.png",
+                            "Vowel_O.png",
+                            "Vowel_U.png"
+                        ]
+                    },
+                    {
+                        "number": 5,
+                        "description": "Implement Vowel Collection and Score System, earning 'Coins' and 'Word XP' to advance your Guardian and track Word Mastery [Est: 50 mins]",
+                        "explanation": "When the player collects a vowel, update their score, which represents earned 'Coins' and contributes to your 'Word XP' for Guardian progression. Introduce a 'target vowel' system to guide the player, providing immediate, clear visual and audio feedback for correct/incorrect collections \u2013 crucial for dyslexic learners and reinforcing the player's **Development & Accomplishment** with clear **Empowerment of Creativity & Feedback**.",
+                        "steps": [
+                            "In the 'PlayerController' script, add an `OnTriggerEnter2D(Collider2D other)` method. Inside this method, check if `other.CompareTag(\"Vowel\")` (remember to tag your Vowel Prefabs as 'Vowel').",
+                            "When a vowel is detected, use `other.GetComponent<Vowel>().letter` to get its character value.",
+                            "Create a new C# script 'GameManager' in 'Assets/Scripts'. Create an Empty GameObject in 'VowelIsland' scene, name it 'GameManager', and attach the 'GameManager' script to it. Make this script a Singleton pattern (or use `DontDestroyOnLoad`) if you want score to persist across scenes.",
+                            "In 'GameManager', define a `private char currentVowelTarget;` variable, a `public int currentCoins;` variable, and a `public int currentWordXP;` variable. Implement a method `SetRandomTargetVowel()` to choose a new target. Also, add methods like `AddCoins(int amount)` and `SubtractCoins(int amount)`, and `AddWordXP(int amount)`.",
+                            "Add UI Text (TextMeshPro) components to your VowelIsland Canvas. One for 'CoinsDisplay', one for 'WordXPDisplay' and another for 'TargetVowelDisplay'. Update these texts via the 'GameManager' script whenever their respective values or target changes.",
+                            "Back in 'PlayerController', when a vowel is collected:",
+                            "- Call a method on 'GameManager' (e.g., `GameManager.Instance.CollectVowel(collectedVowelLetter);`).",
+                            "- Inside 'GameManager.CollectVowel()':",
+                            "  - If `collectedVowelLetter` matches `currentVowelTarget`, increase `currentCoins` (+5 coins as per GDD) and increase `currentWordXP` (+10 XP). Trigger positive feedback (e.g., green particle effect, a short 'Correct!' text pop-up, a cheerful sound effect like 'Audio_Correct.wav'), reinforcing **Development & Accomplishment**.",
+                            "  - If it's incorrect, decrease `currentCoins` (-1 coin), trigger negative feedback (e.g., red 'X' particle, a 'Try Again!' text, a distinct incorrect sound like 'Audio_Incorrect.wav'), emphasizing the **Loss & Avoidance** of resources.",
+                            "  - Destroy the collected vowel `other.gameObject`.",
+                            "Design feedback to be very distinct: different colors, shapes, and sounds for correct vs. incorrect answers. Visually highlight the target vowel clearly."
+                        ],
+                        "expected_object": {
+                            "type": "Scene",
+                            "name": "VowelIsland",
+                            "components": [
+                                "GameManager (Script)",
+                                "UI Text (CoinsDisplay)",
+                                "UI Text (WordXPDisplay)",
+                                "UI Text (TargetVowelDisplay)"
+                            ],
+                            "properties": [
+                                "Coins tracking",
+                                "Word XP tracking",
+                                "Target vowel system",
+                                "Feedback for collection"
+                            ]
+                        },
+                        "recommended_sprites": [
+                            "Coin_Icon.png",
+                            "Particle_Correct.png",
+                            "Particle_Incorrect.png",
+                            "Audio_Correct.wav",
+                            "Audio_Incorrect.wav"
+                        ]
+                    },
+                    {
+                        "number": 6,
+                        "description": "Implement Pirate Ship Progression and Game Over Condition [Est: 40 mins]",
+                        "explanation": "Introduce the menacing pirate ship as a tangible representation of the looming threat from 'Le N\u00e9ant'. It progresses towards the player's 'shoreline' if incorrect vowels are collected, symbolizing the erosion of knowledge. The game ends if the ship reaches the shore, adding a dynamic challenge that leverages **Loss & Avoidance** and highlights the importance of precise word mastery (**Development & Accomplishment**).",
+                        "steps": [
+                            "Add a SpriteRenderer GameObject to the 'VowelIsland' scene for the pirate ship. Name it 'PirateShip'. (Consider 'PirateShip.png'). Position it off-screen to the right of your game area.",
+                            "In the 'GameManager' script, add a variable to track the pirate ship's position or progress (e.g., `public float pirateShipProgress;`).",
+                            "Modify the `GameManager.CollectVowel()` method: when an incorrect vowel is collected, move the 'PirateShip' GameObject a small increment to the left (towards the shore) and play a subtle, ominous sound effect (tying to **Loss & Avoidance**). When a correct vowel is collected, move the ship a smaller increment back to the right (away from the shore) and play a brief, positive sound effect or show a small sparkle (tying to **Development & Accomplishment**).",
+                            "Create an Empty GameObject at the left edge of your screen, name it 'Shoreline'. Add a BoxCollider2D component to it and set 'Is Trigger' to true. This will serve as the detection point for the pirate ship reaching the shore.",
+                            "Add a Rigidbody2D to 'PirateShip' (set 'Body Type' to 'Kinematic' if you're controlling movement via script, or 'Dynamic' if it should react to forces, then adjust its 'Collider2D'). Add a BoxCollider2D to 'PirateShip'.",
+                            "In 'GameManager' (or a dedicated 'PirateShipController' script), continuously check if 'PirateShip' collides with the 'Shoreline' trigger (using `OnTriggerEnter2D`) or if its X-position crosses a predefined threshold.",
+                            "If the ship reaches the shore, trigger a 'GameOver' state: Display a 'Game Over' UI panel (create a new Canvas/Panel with Text and Buttons), stop vowel spawning, and allow the player to 'Restart' the level or 'Return to Main Menu'.",
+                            "Create a simple 'GameOverCanvas' UI with a 'Restart Button' and 'Back to Main Menu Button'. Hook up their OnClick events to methods in 'GameManager' to reload the 'VowelIsland' scene or the 'MainMenu' scene.",
+                            "Update the 'MainMenuManager' script to load 'VowelIsland' (or ideally, a 'WorldMap' scene, which we'll implement in Chapter 4) when its 'StartGame()' method is called."
+                        ],
+                        "expected_object": {
+                            "type": "Scene",
+                            "name": "VowelIsland",
+                            "components": [
+                                "SpriteRenderer (PirateShip)",
+                                "GameObject (Shoreline)",
+                                "GameObject (GameOverCanvas)"
+                            ],
+                            "properties": [
+                                "Pirate ship movement logic",
+                                "Game Over condition and UI"
+                            ]
+                        },
+                        "recommended_sprites": [
+                            "PirateShip.png",
+                            "GameOver_Background.png",
+                            "Button_Restart.png",
+                            "Button_MainMenu.png"
+                        ]
+                    }
+                ]
+            },
+            {
+                "number": 2,
+                "title": "Chapter 2: Consonant Island (Word Puzzles)",
+                "tasks": [
+                    {
+                        "number": 1,
+                        "description": "Create Consonant Island Scene and Tower UI [Est: 45 mins]",
+                        "explanation": "Set up the scene for the word puzzle island, themed as a magical tower ascent. This initial setup lays the groundwork for the visible restoration of Consonant Island as players master words, progressing through its challenges. The UI will prominently feature an input field for players to type their word answers and dedicated areas for hints and feedback messages, providing immediate feedback on their accomplishments.",
+                        "steps": [
+                            "Go to 'Assets/Scenes', right-click -> Create -> Scene, and name it 'ConsonantIsland'.",
+                            "Double-click to open 'ConsonantIsland' scene.",
+                            "Add a SpriteRenderer GameObject for the background. Name it 'Background'. Assign a tower or fantasy realm background sprite (Consider 'Tower_Background.png'). Adjust its layer order to be behind UI elements.",
+                            "Create a UI Canvas named 'TowerCanvas'. Set up Canvas Scaler properties ('Scale With Screen Size', 1920x1080 Reference Resolution) similar to the MainMenu Canvas for consistent scaling.",
+                            "Add a UI Text (TMP) component to 'TowerCanvas'. Name it 'HintText'. Position it clearly at the top or center-top to display the puzzle clues. Use a large, readable, dyslexia-friendly font.",
+                            "Add a UI InputField (TMP) component to 'TowerCanvas'. Name it 'WordInputField'. This is where the player will type their word. Ensure it's visually distinct and easy to interact with.",
+                            "Add a UI Button (TMP) component to 'TowerCanvas'. Rename it 'SubmitButton'. Change its text to 'Submit'.",
+                            "Add another UI Text (TMP) component to 'TowerCanvas'. Name it 'FeedbackText'. This will display messages like 'Correct! (+5 Coins!)' or 'Incorrect. Try again.'. Position it near the InputField and set its initial text to empty or a placeholder. (ties to **Development & Accomplishment**, **Resource Management**)"
+                        ],
+                        "expected_object": {
+                            "type": "Scene",
+                            "name": "ConsonantIsland",
+                            "components": [
+                                "Canvas (TowerCanvas)",
+                                "Text (TMP) (HintText)",
+                                "InputField (TMP) (WordInputField)",
+                                "Button (SubmitButton)",
+                                "Text (TMP) (FeedbackText)"
+                            ]
+                        },
+                        "recommended_sprites": [
+                            "Tower_Background.png",
+                            "UI_Input_Field.png",
+                            "Button_Submit.png"
+                        ]
+                    },
+                    {
+                        "number": 2,
+                        "description": "Implement Word Puzzle Logic and Validation, including tracking progress towards Consonant Island's restoration and player word mastery. [Est: 75 mins]",
+                        "explanation": "Develop the core system for presenting word puzzles and validating player input. This part focuses on identifying consonants and combining them with implied vowels to form target words, which helps with basic phonics and word building. Successful completions will contribute to restoring Consonant Island and help the player build their personal Word Journal and gain Word XP.",
+                        "steps": [
+                            "Create a new C# script 'WordPuzzleManager' in 'Assets/Scripts'. Create an Empty GameObject in 'ConsonantIsland' scene, name it 'WordPuzzleManager', and attach the script to it.",
+                            "In 'WordPuzzleManager', define a simple data structure to hold your puzzle data. A `public class Puzzle { public string hint; public string correctAnswer; public List<char> requiredConsonants; }` would work well. Then, create a `List<Puzzle>` to store multiple puzzles.",
+                            "Populate this list with several puzzles. Examples: `hint: 'A long yellow fruit', correctAnswer: 'BANANA', requiredConsonants: ['B', 'N', 'N']` (focusing on the consonant sounds).",
+                            "Implement a public method `LoadNextPuzzle()` that selects a random or sequential puzzle from your list, potentially adjusting difficulty based on recent player performance, updates the 'HintText' with the puzzle's hint, and clears the 'WordInputField'.",
+                            "Implement a public method `SubmitAnswer()` which will be called by the 'SubmitButton's 'On Click' event.",
+                            "Inside `SubmitAnswer()`:",
+                            "- Get the text from the 'WordInputField' (`WordInputField.text`).",
+                            "- Convert both the input and the `correctAnswer` to uppercase using `ToUpper()` for case-insensitive comparison.",
+                            "- Check if the player's input string matches the `correctAnswer` for the current puzzle.",
+                            "- If correct: Update 'FeedbackText' to 'Correct!', award points (e.g., 10 coins), award Word XP (e.g., 5 XP), play a positive sound, trigger a visual effect (e.g., a simple tower ascent animation placeholder or particles), mark the `correctAnswer` word as 'mastered' in a placeholder 'Word Journal' system, then call `LoadNextPuzzle()` to advance.",
+                            "- If incorrect: Update 'FeedbackText' to 'Incorrect. Try again.', penalize points (e.g., -5 coins). Play a negative sound. For dyslexia support, consider dynamically highlighting incorrect letters in the player's input or suggesting which consonants might be wrong/missing.",
+                            "Connect the 'SubmitButton's 'On Click ()' event to 'WordPuzzleManager.SubmitAnswer()'.",
+                            "Add a simple 'TowerProgress' UI element to the Canvas (e.g., a UI Image with its 'Image Type' set to 'Filled' and 'Fill Method' to 'Horizontal'). Update its `fillAmount` property based on the number of correct answers to visually represent progress up the tower, symbolizing the restoration of Consonant Island's 'Magic of Words'."
+                        ],
+                        "expected_object": {
+                            "type": "Scene",
+                            "name": "ConsonantIsland",
+                            "components": [
+                                "WordPuzzleManager (Script)",
+                                "UI Image (TowerProgress)"
+                            ],
+                            "properties": [
+                                "Word puzzle functionality",
+                                "Answer validation",
+                                "Progress tracking"
+                            ]
+                        },
+                        "recommended_sprites": [
+                            "UI_ProgressBar_Empty.png",
+                            "UI_ProgressBar_Fill.png"
+                        ]
+                    },
+                    {
+                        "number": 3,
+                        "description": "Integrate impactful Positive and Negative Feedback to reinforce learning and celebrate accomplishments [Est: 30 mins]",
+                        "explanation": "Enhance the user experience with clear visual and auditory feedback. Immediate, unambiguous feedback is essential for children with dyslexia to understand their performance without confusion, directly supporting their **Development & Accomplishment** and **Empowerment of Creativity & Feedback** by clearly communicating progress and areas for improvement.",
+                        "steps": [
+                            "In the 'WordPuzzleManager' script, add public `AudioSource` references for correct and incorrect sounds (e.g., `AudioSource correctSound; AudioSource incorrectSound;`). Link these in the Inspector by adding AudioSource components to the 'WordPuzzleManager' GameObject and dragging audio clips from 'Assets/Audio' (e.g., 'Audio_Correct.wav', 'Audio_Incorrect.wav').",
+                            "Add methods to play these sounds (`correctSound.Play(); incorrectSound.Play();`) when an answer is submitted, corresponding to correct or incorrect outcomes.",
+                            "Create small particle systems (e.g., in 'Assets/Prefabs') or simple animation clips to appear briefly near the 'WordInputField' or 'FeedbackText' GameObject for correct (e.g., stars, sparkles) and incorrect (e.g., smoke, red flash) answers. Instantiate and play these effects on feedback, visually celebrating correct answers and contributing to the player's sense of **Development & Accomplishment**.",
+                            "For incorrect answers, beyond just a text message, consider briefly highlighting the specific letters in the player's incorrect input that don't match or the missing consonants (if applicable to your hint system). This direct visual cue significantly aids learning and directly supports **Empowerment of Creativity & Feedback** by providing actionable insights.",
+                            "Ensure encouraging messages are used for incorrect answers rather than just 'Wrong'. Phrases like 'Good try! Keep practicing!' or 'Almost there!' provide positive reinforcement, aligning with the goal of fostering continuous **Development & Accomplishment**."
+                        ],
+                        "expected_object": {
+                            "type": "Script",
+                            "name": "WordPuzzleManager",
+                            "properties": [
+                                "Audio feedback for correct/incorrect",
+                                "Visual feedback for answers"
+                            ]
+                        },
+                        "recommended_sprites": [
+                            "Audio_Correct.wav",
+                            "Audio_Incorrect.wav",
+                            "Particle_Correct_Word.png",
+                            "Particle_Incorrect_Word.png"
+                        ]
+                    },
+                    {
+                        "number": 4,
+                        "description": "Implement Consonant Island Restoration and Princess's Return [Est: 20 mins]",
+                        "explanation": "Define the win condition for the Consonant Island. Upon successfully solving a certain number of puzzles, trigger the 'Consonant Island Restored' event, visibly revitalizing the area and preparing for transition to the next island or the main world map. This ties into the Core Mechanics of Word Restoration & World Progression, providing a tangible measure of impact.",
+                        "steps": [
+                            "In 'WordPuzzleManager', add an integer variable to track the `numberOfPuzzlesSolved`.",
+                            "After each correct answer, increment `numberOfPuzzlesSolved`. Check if it reaches a predefined target (e.g., 5-7 puzzles).",
+                            "Once the target is met, trigger the 'Consonant Island Restored' event. Disable the input field and submit button.",
+                            "Implement a subtle visual transformation on the Consonant Island scene (e.g., color shift, particle effects, or ambient light change) to signify the restoration of its 'Magic of Words' and the return of its guardian Princess. (ties to Core Mechanics: Word Restoration & World Progression)",
+                            "Display an 'Island Restored! Princess Rescued!' success screen or animation. This can be a separate UI Panel (GameObject with Image and Text) that becomes active.",
+                            "Add a 'Mystery Treasure Chest' GameObject to the scene that becomes active and animates open upon island completion, providing a visual reward. (This can contain placeholder rewards like 'Coins +50' for now). (ties to Reward Systems: Mystery Treasure Chests)",
+                            "Add a 'Next Island' button to the success screen. Hook its 'On Click' event to a method in 'GameManager' or 'WordPuzzleManager' that loads the next island scene ('BlendIsland', which will be created in Chapter 3)."
+                        ],
+                        "expected_object": {
+                            "type": "Scene",
+                            "name": "ConsonantIsland",
+                            "components": [
+                                "UI GameObject (PrincessRescuedPanel)",
+                                "SpriteRenderer (Princess)",
+                                "GameObject (MysteryTreasureChest)"
+                            ],
+                            "properties": [
+                                "Win condition for Consonant Island",
+                                "Visual island restoration effect",
+                                "Transition to next scene/map"
+                            ]
+                        },
+                        "recommended_sprites": [
+                            "Princess_Character.png",
+                            "Success_Panel_Background.png",
+                            "Button_NextIsland.png",
+                            "Treasure_Chest.png",
+                            "Particle_Effect_Sparkle.png"
+                        ]
+                    }
+                ]
+            },
+            {
+                "number": 3,
+                "title": "Chapter 3: Blending Bridge (Consonant Blends)",
+                "tasks": [
+                    {
+                        "number": 1,
+                        "description": "Create Blending Island Scene and Haunted Forest Environment [Est: 40 mins]",
+                        "explanation": "Set up the third gameplay scene, themed as a desolate, haunted forest. This environment represents Blending Island's current state, waiting for the player to begin their mission to restore the 'Magic of Words' by battling 'blend ghosts.' Successful completion of challenges will visibly revitalize this area over time (ties to **Word Restoration & World Progression**, **Epic Meaning & Calling**). The player will need an input field and visual cues for the consonant blends.",
+                        "steps": [
+                            "Go to 'Assets/Scenes', right-click -> Create -> Scene, and name it 'BlendIsland'.",
+                            "Double-click to open 'BlendIsland' scene.",
+                            "Add a SpriteRenderer GameObject for the background. Name it 'Background'. Assign a dark forest background sprite (Consider 'Forest_Background.png') that emphasizes its current desolate state. Adjust its 'Order in Layer'. While setting up this environment, consider where a 'Collectible Lore Fragment' might be subtly placed later for curious players to discover (Player Type Features - **Explorers**).",
+                            "Place the Player character (you can reuse your 'Player' Prefab from 'Assets/Prefabs') at the bottom-center of the screen. Adjust its position and scale if needed for this scene.",
+                            "Create a UI Canvas named 'BlendCanvas'. Set up Canvas Scaler properties similar to previous scenes.",
+                            "Add a UI Text (TMP) component to 'BlendCanvas'. Name it 'BlendTargetText'. This will display the consonant blend the player needs to type (e.g., 'bl', 'gr'). Position it clearly and use a large, bold, dyslexia-friendly font.",
+                            "Add UI Text (TMP) components for 'ScoreDisplay' and 'HealthDisplay' to 'BlendCanvas' to show the player's current score and health during the mini-game."
+                        ],
+                        "expected_object": {
+                            "type": "Scene",
+                            "name": "BlendIsland",
+                            "components": [
+                                "SpriteRenderer (Forest_Background)",
+                                "Player (GameObject)",
+                                "Canvas (BlendCanvas)",
+                                "Text (TMP) (BlendTargetText)",
+                                "Text (TMP) (ScoreDisplay)",
+                                "Text (TMP) (HealthDisplay)"
+                            ]
+                        },
+                        "recommended_sprites": [
+                            "Forest_Background.png",
+                            "Player_Character_Forest.png"
+                        ]
+                    },
+                    {
+                        "number": 2,
+                        "description": "Implement Ghost Enemies and a dynamic Blend Combat System where players earn Word XP and contribute to their Blend Journal mastery by accurately identifying and inputting consonant blends [Est: 90 mins]",
+                        "explanation": "Create ghost enemy prefabs and a system where the player must input the correct consonant blend to defeat them. This focuses on quick recognition and accurate typing/selection of blends, visibly enhancing the player's linguistic mastery (Development & Accomplishment) and Guardian progression.",
+                        "steps": [
+                            "Create a Prefab for a 'Ghost' enemy in 'Assets/Prefabs'. Add a SpriteRenderer and assign a ghost sprite (Consider 'Ghost_Enemy.png').",
+                            "Add a Collider2D (e.g., BoxCollider2D or CapsuleCollider2D) to the 'Ghost' Prefab. Add a Rigidbody2D component and set its 'Body Type' to 'Kinematic' if you want to control its movement purely through script (e.g., hovering or slowly approaching).",
+                            "Create a new C# script 'Ghost' in 'Assets/Scripts'. Attach it to the 'Ghost' Prefab. In this script, add a `public string requiredBlend;` variable to store the specific blend (e.g., 'bl', 'gr') needed to defeat this ghost.",
+                            "Create a new C# script 'BlendCombatManager' in 'Assets/Scripts'. Create an Empty GameObject in 'BlendIsland' scene named 'BlendCombatManager' and attach the script to it.",
+                            "In 'BlendCombatManager', declare a `List<string>` containing all possible consonant blends (e.g., 'bl', 'br', 'ch', 'dr', 'fl', 'fr', 'gl', 'gr', 'pl', 'pr', 'sc', 'sh', 'sk', 'sl', 'sm', 'sn', 'sp', 'st', 'sw', 'th', 'tr', 'tw', 'wh', 'wr').",
+                            "Implement a `SpawnGhost()` method that instantiates a 'Ghost' prefab, randomly selects a blend from your list, assigns it to the spawned ghost's `requiredBlend` property, and positions the ghost on screen (e.g., from the top, slowly moving down). Set it as the 'current active ghost'.",
+                            "Add a UI InputField (TMP) to the 'BlendCanvas'. Name it 'BlendInputField'. This is where the player will type the blend. Make sure it's linked to an `On End Edit` or `On Value Changed` event (if hitting Enter to submit).",
+                            "Implement a public method 'SubmitBlend()' in 'BlendCombatManager'. This method will be triggered by an 'Enter' key press on the InputField or a dedicated 'Attack' button (add this button if preferred).",
+                            "Inside 'SubmitBlend()':",
+                            "- Get the typed text from 'BlendInputField'. Convert to lowercase for comparison.",
+                            "- Compare the typed text with the `requiredBlend` of the current active ghost.",
+                            "- If correct: Defeat the ghost (play defeat animation/particle, destroy the ghost GameObject), award points (e.g., 15 coins), gain Word XP (e.g., 20 XP), and mark the `requiredBlend` as learned/mastered (contributing to a 'Blend Journal' - Ownership & Possession, Development & Accomplishment), play a positive sound, then call `SpawnGhost()` to bring in the next challenge. Clear the input field.",
+                            "- If incorrect: Penalize points, play a negative sound. The ghost might 'attack' the player (reduce player health, discussed in the next task). Clear the input field for the player to try again.",
+                            "Consider adding a visual indication above the ghost, like partial letters or a word missing the blend (e.g., '___end' for 'blend'), to give a hint for dyslexia support."
+                        ],
+                        "expected_object": {
+                            "type": "Prefabs and Script",
+                            "name": "Ghost Prefab and Blend Combat System",
+                            "components": [
+                                "Ghost Prefab",
+                                "Ghost (Script)",
+                                "BlendCombatManager (Script)",
+                                "InputField (TMP)"
+                            ],
+                            "properties": [
+                                "Ghost spawning",
+                                "Blend input and validation",
+                                "Combat feedback"
+                            ]
+                        },
+                        "recommended_sprites": [
+                            "Ghost_Enemy.png",
+                            "Ghost_Defeated.png",
+                            "UI_Input_Field_Blend.png"
+                        ]
+                    },
+                    {
+                        "number": 3,
+                        "description": "Implement Player Health and Game Over/Victory Conditions to secure the Blending Bridge and progress your linguistic mastery [Est: 35 mins]",
+                        "explanation": "Track the Word Guardian's health during the blend combat, emphasizing the challenge of protecting the island's words. Define clear win and lose conditions for this mini-game, providing visual cues for health changes. Successful completion will visibly restore a portion of the island's magic and contribute to your overall progress, tying into **Development & Accomplishment** and **Epic Meaning & Calling**.",
+                        "steps": [
+                            "In 'BlendCombatManager', add a `public int playerHealth;` variable and update the 'HealthDisplay' UI Text whenever it changes.",
+                            "If the player types an incorrect blend, reduce `playerHealth` by a fixed amount (e.g., 10).",
+                            "If `playerHealth` drops to 0 or below, trigger the 'Game Over' state: Display a 'Game Over' UI panel (similar to 'VowelIsland'), stop new ghosts from spawning, and allow the player to 'Restart' or 'Return to Main Menu'.",
+                            "Implement a victory condition: Track the number of corrupted blend spirits defeated. Once a predefined number (e.g., 10-15 spirits) are vanquished, trigger the 'Blending Bridge Restored!' victory state, signifying a step towards revitalizing the island.",
+                            "Upon victory, display a success message (e.g., 'Blending Bridge Restored!'), grant a small amount of 'Word XP' to the player's Guardian, and provide a button to proceed to the next island ('WordWoods') or back to the world map. (Ties to 'Guardian Level & Abilities' from Progression, supporting **Development & Accomplishment**).",
+                            "Consider using a simple health bar (a UI Image with its 'Image Type' set to 'Filled' and 'Fill Method' to 'Horizontal') for visual health representation. A graphical health bar can be easier for children with dyslexia to quickly understand than numerical health values."
+                        ],
+                        "expected_object": {
+                            "type": "Script",
+                            "name": "BlendCombatManager",
+                            "properties": [
+                                "Player health tracking",
+                                "Game over / Victory states",
+                                "Health UI updates"
+                            ]
+                        },
+                        "recommended_sprites": [
+                            "HealthBar_Empty.png",
+                            "HealthBar_Fill.png",
+                            "Success_Panel_Background.png"
+                        ]
+                    }
+                ]
+            },
+            {
+                "number": 4,
+                "title": "Chapter 4: Word Woods (Word & Sentence Formation)",
+                "tasks": [
+                    {
+                        "number": 1,
+                        "description": "Create Word Woods Scene and Letter Tile UI, laying the groundwork for restoring its linguistic essence [Est: 50 mins]",
+                        "explanation": "Set up the final gameplay scene where players will form words or complete sentences using interactive, draggable letter or word tiles. Successfully completing these challenges here will visibly contribute to the Word Woods' revitalization and add mastered words to the player's personal Word Journal, reinforcing phonemic awareness, spelling, and basic sentence structure.",
+                        "steps": [
+                            "Go to 'Assets/Scenes', right-click -> Create -> Scene, and name it 'WordWoods'.",
+                            "Double-click to open 'WordWoods' scene.",
+                            "Add a SpriteRenderer GameObject for the background. Name it 'Background'. Assign a woods, river, or other thematic background sprite (Consider 'WordWoods_Background.png'), imagining how the scene will visibly transform as players succeed.",
+                            "Create a UI Canvas named 'WordCanvas'. Set up Canvas Scaler properties as done for previous UI canvases.",
+                            "Add a UI Text (TMP) component to 'WordCanvas'. Name it 'HintTargetText'. This will display the target word or a sentence with a blank (e.g., 'What barks? _ _ _ _' or 'Arrange letters to spell: CAT'). Use a clear, large, dyslexia-friendly font.",
+                            "Add an Empty GameObject to 'WordCanvas', name it 'LetterContainer'. Add a 'Horizontal Layout Group' component to it. This will automatically arrange the draggable letter tiles horizontally.",
+                            "Create a UI Image Prefab in 'Assets/Prefabs' for a 'LetterTile'. Add a Text (TMP) as a child to display the letter. Set its 'RectTransform' anchors/pivot to the center. Add a 'Canvas Group' component (for drag transparency). For dragging, you'll implement custom drag logic via scripts, so a Rigidbody2D is not strictly needed for UI elements unless using UI physics.",
+                            "Ensure the letters displayed on the 'LetterTile' Prefab are clear, bold, and have ample spacing between them and within the tile for readability, crucial for learners with dyslexia."
+                        ],
+                        "expected_object": {
+                            "type": "Scene",
+                            "name": "WordWoods",
+                            "components": [
+                                "Canvas (WordCanvas)",
+                                "Text (TMP) (HintTargetText)",
+                                "Horizontal Layout Group (LetterContainer)",
+                                "Prefab (LetterTile)"
+                            ]
+                        },
+                        "recommended_sprites": [
+                            "WordWoods_Background.png",
+                            "Letter_Tile_Empty.png"
+                        ]
+                    },
+                    {
+                        "number": 2,
+                        "description": "Implement Draggable Letter Tiles and Word Building Logic to restore the magic of words [Est: 90 mins]",
+                        "explanation": "Develop the interactive mechanics that allow players to drag individual letter tiles and arrange them into words, directly contributing to word mastery and the world's restoration. Implement logic to validate the formed word against a target word, providing tangible progression feedback (tying to **Development & Accomplishment** and **Epic Meaning & Calling**).",
+                        "steps": [
+                            "Create a new C# script 'LetterTileDragHandler' in 'Assets/Scripts'. Attach it to the 'LetterTile' Prefab.",
+                            "In 'LetterTileDragHandler', implement `IPointerDownHandler`, `IPointerUpHandler`, and `IDragHandler` interfaces. In `OnPointerDown`, set the tile's parent to 'WordCanvas' to ensure it renders on top during drag. In `OnDrag`, update `transform.position` based on `eventData.position`. In `OnPointerUp`, snap the tile back or handle dropping into a 'DropZone'.",
+                            "Create 'DropZone' UI Images in the 'WordWoods' scene (e.g., 5 empty rectangular slots arranged horizontally below the 'HintTargetText'). Add a BoxCollider2D to each and set 'Is Trigger' to true, as well as a 'Graphic Raycaster' on the Canvas.",
+                            "Create a new C# script 'WordBuilderManager' in 'Assets/Scripts'. Create an Empty GameObject 'WordBuilderManager' in 'WordWoods' scene and attach the script.",
+                            "In 'WordBuilderManager', define a list of word puzzles, each with a `hint` and a `correctWord`. Also, a list of references to your 'DropZone' UI GameObjects.",
+                            "When a puzzle starts: randomly pick a word. Instantiate 'LetterTile' prefabs for each letter of the target word, plus a few distractor letters. Place these instances randomly within the 'LetterContainer' and shuffle their order.",
+                            "In 'LetterTileDragHandler', modify `OnPointerUp` to check if the tile is dropped over a 'DropZone'. If it is, parent the 'LetterTile' to that 'DropZone' and position it correctly within it.",
+                            "Implement a `CheckWord()` method in 'WordBuilderManager'. This method will iterate through your 'DropZone' slots, gather the letters in order, and reconstruct the formed word.",
+                            "- If the `formedWord` matches the `correctWord`: Award 'Coins' and 'Word XP', add the word to the player's 'Word Journal' (with a 'mastery star' if new or improved mastery, leveraging **Ownership & Possession** and **Development & Accomplishment**), play positive feedback (consider a subtle particle effect or 'word restored' visual cue, tying to **Epic Meaning & Calling**), and display 'Correct!'. Clear the 'DropZone' slots and load the next puzzle.",
+                            "- If incorrect: Play negative feedback, highlight the incorrect letters in the 'DropZone' (e.g., by changing their color to red temporarily) if possible, and encourage the player to try again. Reset the tiles to their initial positions if desired.",
+                            "Add an 'Assemble' or 'Check Word' UI Button (TMP) to 'WordCanvas' that triggers the `CheckWord()` method when clicked."
+                        ],
+                        "expected_object": {
+                            "type": "Prefabs and Script",
+                            "name": "Letter Tile Prefabs and Word Builder System",
+                            "components": [
+                                "LetterTileDragHandler (Script)",
+                                "WordBuilderManager (Script)",
+                                "UI Image (DropZone)"
+                            ],
+                            "properties": [
+                                "Draggable letter tiles",
+                                "Word formation and validation"
+                            ]
+                        },
+                        "recommended_sprites": [
+                            "DropZone_Empty.png",
+                            "DropZone_Filled.png"
+                        ]
+                    },
+                    {
+                        "number": 3,
+                        "description": "Implement Sentence Completion (Advanced) or Final Game Overview [Est: 45 mins]",
+                        "explanation": "This task allows for expanding the word building to simple sentence completion or, if focusing on core mechanics, a final game completion state. The goal is to culminate the learning experience and provide a sense of achievement, specifically by showcasing the 'Magic of Words' restored to the island and rewarding the player for their dedicated efforts. (ties to **Epic Meaning & Calling**, **Development & Accomplishment**)",
+                        "steps": [
+                            "**Option A: Sentence Completion (More Advanced)**",
+                            "- Modify the 'WordBuilderManager' to handle sentence puzzles instead of just single words. This would involve a `hint` that's a sentence with a blank (e.g., 'The cat sat on the _ _ _ _ .'), and `correctWord` being the missing word.",
+                            "- Instead of individual letter tiles, you would provide draggable 'word' tiles (e.g., 'mat', 'dog', 'tree') as prefabs, which the player drags into the blank space.",
+                            "- This requires creating word tile prefabs and modifying the `CheckWord()` logic to validate a full word rather than individual letters, making the 'DropZone' a single larger area for the missing word. Successfully completing a sentence should register the missing word in the player's 'Word Journal' with a mastery star. (ties to **Ownership & Possession**, **Development & Accomplishment**)",
+                            "**Option B: Final Game Overview (Recommended for initial build)**",
+                            "- Upon completing a set number of word puzzles (e.g., 5-10), trigger the game's final 'Victory' screen. This could be a new UI Panel (GameObject with Image and Text) that pops up.",
+                            "- On the 'Victory' screen, display a summary of the player's total score across all islands, their 'Words Mastered' count, and any achievements earned. Visually represent the 'Magic of Words' returning to the current island (e.g., through a subtle particle effect or a brighter background shift) as a tangible outcome of their success. (ties to **Development & Accomplishment**, **Epic Meaning & Calling**)",
+                            "- After the summary, trigger an animation to award the player a 'Mystery Treasure Chest' containing bonus coins or a rare cosmetic item, reinforcing their accomplishment with an element of surprise. (ties to **Unpredictability & Curiosity**, **Ownership & Possession**)",
+                            "- Provide options to 'Play Again' (reloads the 'WorldMap' scene), 'Return to Main Menu', or view 'Credits'.",
+                            "Throughout this final stage, ensure all text elements (titles, summaries, buttons) continue to use dyslexia-friendly fonts with ample spacing and clear contrasts."
+                        ],
+                        "expected_object": {
+                            "type": "Scene",
+                            "name": "WordWoods",
+                            "components": [
+                                "UI GameObject (VictoryScreen)",
+                                "UI Button (PlayAgainButton)"
+                            ],
+                            "properties": [
+                                "Game completion sequence",
+                                "Summary display"
+                            ]
+                        },
+                        "recommended_sprites": [
+                            "Victory_Background.png",
+                            "Button_PlayAgain.png",
+                            "Button_Credits.png",
+                            "Mystery_Chest.png"
+                        ]
+                    },
+                    {
+                        "number": 4,
+                        "description": "Integrate All Scenes into a dynamic World Map and Progression System, where each unlocked island visibly transforms, marking your progress and the restoration of words to Word Island. [Est: 60 mins]",
+                        "explanation": "Create a central 'WorldMap' scene from which players can select and navigate to different islands. This system will also track and display the player's progress, unlocking islands as they complete previous ones, creating a cohesive game flow. Emphasize the visual revitalization of islands upon completion, providing a tangible sense of development and accomplishment and hinting at the world's lore.",
+                        "steps": [
+                            "Go to 'Assets/Scenes', right-click -> Create -> Scene, and name it 'WorldMap'.",
+                            "Open 'WorldMap' scene. This scene will be the one loaded after the 'MainMenu' scene.",
+                            "Add a SpriteRenderer GameObject for the world map background. Name it 'Background'. Assign a world map sprite (Consider 'WorldMap_Background.png').",
+                            "Add a UI Canvas named 'MapCanvas'. Set up Canvas Scaler properties.",
+                            "Place UI Buttons (or interactive sprites with Collider2D components) on the 'MapCanvas' for each island: 'VowelIslandButton', 'ConsonantIslandButton', 'BlendIslandButton', 'WordWoodsIslandButton'. Position them over their respective locations on your map background.",
+                            "Create a new C# script 'WorldMapManager' in 'Assets/Scripts'. Create an Empty GameObject 'WorldMapManager' in 'WorldMap' scene and attach the script.",
+                            "In 'WorldMapManager', add public methods for each island, like `public void LoadVowelIsland() { SceneManager.LoadScene(\"VowelIsland\"); }`, and similarly for other islands. Ensure `using UnityEngine.SceneManagement;` at the top of the script.",
+                            "Connect the 'On Click ()' events of your island buttons to these corresponding `Load...Island()` methods in 'WorldMapManager'.",
+                            "Update your main 'GameManager' script (or create a separate 'ProgressionManager' script using `DontDestroyOnLoad` if you want it to persist across scenes) to store island completion status (e.g., a `bool[] islandUnlocked` array).",
+                            "Modify the completion logic in each island's manager script (e.g., 'VowelIsland', 'ConsonantIsland') to call a method in your 'GameManager' to `UnlockIsland(int islandNumber)` upon successful completion. Consider adding a simple visual effect or animation on the map to show the island being 'restored' or 'transformed' at this point (ties to Development & Accomplishment, Epic Meaning & Calling).",
+                            "In 'WorldMapManager', in the `Start()` or `OnEnable()` method, check the 'GameManager' for island unlock status. Dynamically enable or disable (or change the sprite of) the island buttons on the map to reflect which islands are playable (unlocked) and which are still locked. Ensure unlocked islands display their 'restored' sprite, clearly showing player progress (ties to Development & Accomplishment).",
+                            "Add a small UI Text element to 'MapCanvas' to display a count of 'Lore Fragments' collected so far, subtly encouraging exploration (ties to Unpredictability & Curiosity).",
+                            "Finally, update the 'MainMenuManager' script so that its 'StartGame()' method loads the 'WorldMap' scene instead of directly loading 'VowelIsland'."
+                        ],
+                        "expected_object": {
+                            "type": "Scene",
+                            "name": "WorldMap",
+                            "components": [
+                                "SpriteRenderer (WorldMap_Background)",
+                                "Button (VowelIslandButton)",
+                                "Button (ConsonantIslandButton)",
+                                "WorldMapManager (Script)"
+                            ],
+                            "properties": [
+                                "World map navigation",
+                                "Island unlocking based on progress"
+                            ]
+                        },
+                        "recommended_sprites": [
+                            "WorldMap_Background.png",
+                            "Island_Vowel_Icon.png",
+                            "Island_Consonant_Icon.png",
+                            "Island_Blend_Icon.png",
+                            "Island_Word_Icon.png",
+                            "Island_Locked_Icon.png",
+                            "Island_Unlocked_Icon.png"
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "current_chapter_index": 0,
+    "current_task_index": 1,
+    "user_coins": 5,
+    "script_detail_level": "Give only the functions and description of each one"
+}
